@@ -32,7 +32,7 @@ type TargetInterface interface { // you can change this name
 You can add private methods, generate mocks, change the search dir;
 all options:
 
-```
+```shell
 	-h, --help				Display help text for this command
 	-d, --dir STRING		Scan this dir for the struct
 	-m, --mock STRING		Generate a mock implementation also

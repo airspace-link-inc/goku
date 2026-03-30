@@ -25,14 +25,15 @@ func (i ifaceCmd) usage() string { return `STRUCTNAME [FLAGS]` }
 func (i ifaceCmd) short() string { return "Generate an interface from a struct" }
 
 func (i ifaceCmd) long() string {
-	base := `Generate an interface from a struct's name.
+	var base strings.Builder
+	base.WriteString(`Generate an interface from a struct's name.
 
 Pass in the name of a struct and the source code will be scanned for all the
 methods in the package in the directory specified (default is current dir, unless
 overrided by -d/--dir). Once the scanning is completed it will output source code
 for the interface that the struct creates.
 
-Flags`
+Flags`)
 
 	for _, v := range [...][2]string{
 		{"-h, --help", "Display help text for this command"},
@@ -43,10 +44,10 @@ Flags`
 		{"--private", "Include private methods"},
 		{"-o, --out", "Don't generate to stdout"},
 	} {
-		base += fmt.Sprintf("\n%27s\t%s", bold.Sprint(v[0]), gray.Sprint(v[1]))
+		fmt.Fprintf(&base, "\n%27s\t%s", bold.Sprint(v[0]), gray.Sprint(v[1]))
 	}
 
-	return base
+	return base.String()
 }
 
 func (i *ifaceCmd) run(args argSlice) error {

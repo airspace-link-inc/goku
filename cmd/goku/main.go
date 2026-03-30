@@ -37,7 +37,7 @@ func (h helpCmd) short() string { return "Get help on any command" }
 func (h helpCmd) long() string {
 	var sb strings.Builder
 	for i, v := range commands {
-		sb.WriteString(fmt.Sprintf("%s\t\t%s", bold.Sprint(v.name()), gray.Sprint(v.short())))
+		fmt.Fprintf(&sb, "%s\t\t%s", bold.Sprint(v.name()), gray.Sprint(v.short()))
 		if i != len(commands)-1 {
 			sb.WriteRune('\n')
 		}
@@ -94,12 +94,6 @@ func (a *argSlice) shift() string {
 }
 
 func main() {
-	var err error
-	if err != nil {
-		l.err(err.Error())
-		os.Exit(2)
-	}
-
 	n := len(os.Args)
 	if n < 2 {
 		l.err("not enough args")
@@ -122,8 +116,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = commands[i].run(argSlice(os.Args[2:])); err == nil {
-		os.Exit(0)
+	err := commands[i].run(argSlice(os.Args[2:]))
+	if err == nil {
+		return
 	}
 
 	l.err(err.Error())

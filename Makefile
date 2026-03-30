@@ -1,4 +1,5 @@
 .DEFAULT: goku
+.PHONY: test
 
 version := $(shell git rev-parse HEAD)
 goku:
